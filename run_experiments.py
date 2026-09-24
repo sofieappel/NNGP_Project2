@@ -35,9 +35,20 @@ import time
 import numpy as np
 import tensorflow as tf
 
+#Changed on 9/1 during office hours
+#import tensorflow.compat.v1 as tf 
+#tf.disable_v2_behavior()
+
 import gpr
 import load_dataset
 import nngp
+
+## Patch ## Rachel Cox 8-19-26
+import numpy as np
+_old_load = np.load
+# Forces pickle allowance AND sets decoding to 'latin1' for Python 2 files
+np.load = lambda *a, **k: _old_load(*a, **{**k, 'allow_pickle': True, 'encoding': 'latin1'})
+##
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
