@@ -20,6 +20,12 @@ cd NNGP_Project2
 
 '''
 
+<p float="left">
+       <img src="/uncertainty_fashion_mnist.png" alt="FMNIST Uncertainty" width="30%"/>
+       <img src="/uncertainty_fig3_mnist.png" alt="MNIST Uncertainty" width="30%"/>
+       <img src="/uncertainty_fig3_cifar.png" alt="CIFAR Uncertainty" width="30%"/>
+</p>
+
 
 # NNGP: Deep Neural Network Kernel for Gaussian Process
 
