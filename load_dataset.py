@@ -68,11 +68,19 @@ def _one_hot(labels, num_classes=10):
   return out
 
 
-def _load_mnist_via_keras(validation_size=10000):
-  """Loads MNIST through tf.keras (reliable download) and reshapes/
+# Edit made by Sofie Appel - 9/24/2024
+# Make dataset selectable so MNIST or Fashion MNIST can be used.
+_keras_datasets = {
+  'mnist': tf.keras.datasets.mnist,
+  'fashion_mnist': tf.keras.datasets.fashion_mnist,
+}
+
+# Edit made by Sofie Appel - 9/24/2024
+def _load_via_keras(dataset='mnist', validation_size=10000):
+  """Loads MNIST-shaped Keras datasets through tf.keras (reliable download) and reshapes/
   normalizes/one-hot-encodes it to match the format the rest of this
   file expects from the old input_data.read_data_sets loader."""
-  (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+  (x_train, y_train), (x_test, y_test) = _keras_datasets[dataset].load_data()
 
   # Flatten to (N, 784) and scale to [0, 1], matching the old loader.
   x_train = x_train.reshape(-1, 784).astype(np.float32) / 255.0
@@ -96,16 +104,20 @@ def _load_mnist_via_keras(validation_size=10000):
 def load_mnist(num_train=50000,
                 use_float64=False,
                 mean_subtraction=False,
-                random_roated_labels=False):
-  """Loads MNIST as numpy array."""
-  datasets = _load_mnist_via_keras(validation_size=10000)
-  mnist_data = _select_mnist_subset(
+                random_roated_labels=False,
+                dataset='mnist'):
+  """Loads MNIST (or Fashion-MNIST)as numpy array."""
+  datasets = _load_via_keras(validation_size=10000)
+  return _select_mnist_subset(
       datasets,
       num_train,
       use_float64=use_float64,
       mean_subtraction=mean_subtraction,
       random_roated_labels=random_roated_labels)
-  return mnist_data
+
+def load_fashion_mnist(**kwargs):
+  return load_mnist(dataset='fashion_mnist', **kwargs)
+
 
 
 def _select_mnist_subset(datasets,

@@ -199,9 +199,6 @@ def compute_uncertainty_and_error(hparams, nonlinearity, train_image,
     nonlin_fn = tf.tanh
   elif nonlinearity == 'relu':
     nonlin_fn = tf.nn.relu
-  #Sofie Appel - Adding additional nonlinearity 9/24
-  elif nonlinearity == 'sigmoid':
-    nonlin_fn = tf.nn.sigmoid
   else:
     raise NotImplementedError(nonlinearity)
 
@@ -292,6 +289,13 @@ def run(hparams, run_dir):
     (train_image, train_label, _, _, test_image,
      test_label) = load_cifar10(
          num_train=FLAGS.num_train, mean_subtraction=True)
+  # Edit made by Sofie Appel - 9/24/2024
+  elif FLAGS.dataset == 'fashion_mnist':
+    (train_image, train_label, _, _, test_image,
+     test_label) = load_dataset.load_fashion_mnist(
+         num_train=FLAGS.num_train,
+         mean_subtraction=True,
+         random_roated_labels=False)
   else:
     raise NotImplementedError(FLAGS.dataset)
 
