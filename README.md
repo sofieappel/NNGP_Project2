@@ -1,3 +1,17 @@
+# Project 2: Reproducing Results from "Deep Neural Networks as Gaussian Processes"
+
+Link to [github repo](https://github.com/sofieappel/NNGP_Project2).
+
+This project aims to reproduce the uncertainty results of the paper, "Deep Neural Networks as Gaussian Processes" as well as 
+extend the uncertainty results to an additional data set.
+
+The original paper uses the MNIST and CIFAR-10 image datasets. Fashion-MNIST contains the same number of images and same resolution, 28x28 pixels, 
+as MNIST but the images are of clothing rather than handwritten numbers. Both datasets are also in grayscale. This addition to the results of 
+the original paper can help test the effectiveness of the model on a similar yet somewhat more complex dataset.
+
+
+
+
 # NNGP: Deep Neural Network Kernel for Gaussian Process
 
 TensorFlow open source implementation of
