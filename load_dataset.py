@@ -107,7 +107,7 @@ def load_mnist(num_train=50000,
                 random_roated_labels=False,
                 dataset='mnist'):
   """Loads MNIST (or Fashion-MNIST)as numpy array."""
-  datasets = _load_via_keras(validation_size=10000)
+  datasets = _load_via_keras(dataset,validation_size=10000)
   return _select_mnist_subset(
       datasets,
       num_train,
