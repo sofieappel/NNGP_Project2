@@ -2,29 +2,49 @@
 
 Link to [github repo](https://github.com/sofieappel/NNGP_Project2).
 
-This project aims to reproduce the uncertainty results of the paper, "Deep Neural Networks as Gaussian Processes" as well as 
-extend the uncertainty results to an additional data set.
+This project aims to reproduce the uncertainty results of the paper, "Deep Neural Networks as Gaussian Processes," as well as 
+extend the results to an additional data set. 
+
+The paper proves that an infinitely wide neural network becomes a Gaussian Process (GP) which means all predictions come with uncertainty estimates. 
+Figure 3 of the paper shows the high correlation of uncertainty with prediction error with training sets of size 50k for MNIST and 45k for CIFAR-10. 
+To keep complexity costs low, Figure 3 was reproduced using a training set of size 1k.
+
+<img src="/img/oringinal_uncertainty.png" alt="Original Uncertainty" width="60%"/>
+
+*Figure 1: Original uncertainty results from Lee et. al.*
+
+<p float="left">
+       <img src="/uncertainty_fig3_mnist.png" alt="MNIST Uncertainty" width="30%"/>
+       <img src="/uncertainty_fig3_cifar.png" alt="CIFAR Uncertainty" width="30%"/>
+</p>
+
+*Figure 2: Reproduced results using training set = 1000.*
 
 The original paper uses the MNIST and CIFAR-10 image datasets. Fashion-MNIST contains the same number of images and same resolution, 28x28 pixels, 
-as MNIST but the images are of clothing rather than handwritten numbers. Both datasets are also in grayscale. This addition to the results of 
+as MNIST but the images are of clothing rather than handwritten numbers. Both datasets are in grayscale. This addition to the results of 
 the original paper can help test the effectiveness of the model on a similar yet somewhat more complex dataset.
 
-Reproduce the results
 
-'''bash
-
-git clone https://github.com/sofieappel/NNGP_Project2
-
-cd NNGP_Project2
-
-
-'''
 
 <p float="left">
        <img src="/uncertainty_fashion_mnist.png" alt="FMNIST Uncertainty" width="30%"/>
        <img src="/uncertainty_fig3_mnist.png" alt="MNIST Uncertainty" width="30%"/>
        <img src="/uncertainty_fig3_cifar.png" alt="CIFAR Uncertainty" width="30%"/>
 </p>
+
+
+
+
+To reproduce these results, run these commands:
+
+```bash
+
+git clone https://github.com/sofieappel/NNGP_Project2
+
+cd NNGP_Project2
+
+
+```
 
 
 # NNGP: Deep Neural Network Kernel for Gaussian Process
