@@ -9,7 +9,7 @@ extend the results to an additional data set.
 
 The paper argues that an infinitely wide neural network becomes a Gaussian Process (GP) which means all predictions come with uncertainty estimates. 
 Figure 3 of the paper shows the high correlation of uncertainty with prediction error with training sets of size 50k for MNIST and 45k for CIFAR-10. 
-To keep computational costs low, Figure 3 was reproduced using a training set of size 1k, depth of 3, weight variance of 2, and bias variance of 0.2. 
+To keep computational costs low, Figure 3 was reproduced using a training set of size 1k. All other parameters were set to a depth of 3, weight variance of 2, and bias variance of 0.2. 
 Both tanh and ReLU nonlinearities were applied like in the original paper. Points were binned by predicted variance and averaged over 100 test points.
 
 <img src="img/oringinal_uncertainty.png" alt="Original Uncertainty" width="60%"/>
