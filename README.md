@@ -35,14 +35,15 @@ the original paper can help test the effectiveness of the model on a similar yet
 
 
 
-To reproduce these results, run these commands:
+To reproduce these results, run these commands in your terminal:
 
 ```bash
 
-git clone https://github.com/sofieappel/NNGP_Project2
-
-cd NNGP_Project2
-
+cd /tmp
+git clone https://github.com/sofieappel/nngp_project2.git
+cd nngp_project2
+docker build -t nngp-project .
+docker run nngp-project
 
 ```
 
