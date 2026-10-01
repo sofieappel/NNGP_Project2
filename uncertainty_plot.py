@@ -106,7 +106,7 @@ flags.DEFINE_string('output_file', '/nngp/output/uncertainty_fig3.png',
 # Paper-style palette: salmon red for Tanh, navy blue for ReLU.
 _COLORS = {'tanh': '#e8746c', 'relu': '#3b5b92'}
 _LABELS = {'tanh': 'Tanh', 'relu': 'ReLU'}
-_DATASET_LABELS = {'mnist': 'MNIST', 'cifar10': 'CIFAR'}
+_DATASET_LABELS = {'mnist': 'MNIST', 'cifar10': 'CIFAR', 'fashion_mnist': 'Fashion MNIST'}
 
 
 def load_cifar10(num_train, mean_subtraction=True, num_valid=5000):
@@ -232,6 +232,12 @@ def compute_uncertainty_and_error(hparams, nonlinearity, train_image,
   targets = test_label[:n_eval]
   actual_mse = np.mean((mean_pred - targets)**2, axis=1)
   predicted_mse = np.mean(var_pred, axis=1)
+
+  accuracy = np.mean(
+      np.argmax(mean_pred, axis=1) == np.argmax(targets, axis=1))
+  print('[%s] dataset=%s num_train=%d num_eval=%d test accuracy: %.4f' % (
+      nonlinearity, FLAGS.dataset, FLAGS.num_train, n_eval, accuracy),
+        flush=True)
   return predicted_mse, actual_mse
 
 
@@ -258,6 +264,8 @@ def make_figure3(runs, output_file, title):
     pred_binned, act_binned = bin_by_predicted_mse(
         predicted_mse, actual_mse, FLAGS.bin_size)
     corr = np.corrcoef(pred_binned, act_binned)[0, 1]
+    print('[%s] binned corr(predicted variance, MSE): %.4f (bin_size=%d)' % (
+      nonlinearity, corr, FLAGS.bin_size), flush=True)
     ax.scatter(
         pred_binned, act_binned,
         s=28, alpha=0.75, color=_COLORS[nonlinearity],
