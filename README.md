@@ -10,7 +10,7 @@ extend the results to an additional data set.
 The paper argues that an infinitely wide neural network becomes a Gaussian Process (GP) which means all predictions come with uncertainty estimates. 
 Figure 3 of the paper shows the high correlation of uncertainty with prediction error with training sets of size 50k for MNIST and 45k for CIFAR-10. 
 To keep computational costs low, Figure 3 was reproduced using a training set of size 1k. All other parameters were set to a depth of 3, weight variance of 2, and bias variance of 0.2. 
-Both tanh and ReLU nonlinearities were applied like in the original paper. Points were binned by predicted variance and averaged over 100 test points.
+Both tanh and ReLU nonlinearities were applied like in the original paper. 
 
 <p align="center"><img src="img/oringinal_uncertainty.png" alt="Original Uncertainty" width="70%"/></p>
 
@@ -23,8 +23,7 @@ Both tanh and ReLU nonlinearities were applied like in the original paper. Point
 
 <p align="center"><i>Figure 2: Reproduced results using training set N = 1000.</i></p>
 
-The smaller training set does lead to differences in the correlation coefficient of uncertainty and prediction error, but still shows a similar positive trend 
-that the larger training sets show. 
+The correlation coefficients slightly differ from the paper, but still show evidence of a strong, positive relationship.
 
 ## Extending Results to Additional Dataset
 
@@ -50,7 +49,7 @@ CIFAR-10 has much more variation within each class and the objects are not cente
 
 ## Limitations
 
-Results use 1,000 training and 1,000 evaluation points, far fewer than the paper's 50k/45k, so absolute values are not comparable to the original.
+Results use 1,000 training points, far fewer than the paper's 50k/45k, so absolute values are not comparable to the original.
 Each plotted series has only 10 binned points and results come from a single seed, so small differences between datasets may not be meaningful. Hyperparameters were fixed to the paper's Figure 3 settings and not tuned per dataset. CIFAR-10 uses a slightly different preprocessing pipeline from MNIST and Fashion-MNIST. Fashion-MNIST is close to MNIST in size and format, so agreement is modest evidence that the trend generalizes.
 
 
