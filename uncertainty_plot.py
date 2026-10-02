@@ -43,7 +43,16 @@ python uncertainty_plot.py \
     --hparams='depth=3,weight_var=2.0,bias_var=0.2' \
     --nonlinearities='tanh,relu' \
     --output_file=/nngp/uncertainty_fig3_cifar.png
+    
+# Fashion-MNIST instead of MNIST:
+python uncertainty_plot.py \
+    --dataset=fashion_mnist --num_train=1000 --num_eval=1000 \
+    --hparams='depth=3,weight_var=2.0,bias_var=0.2' \
+    --nonlinearities='tanh,relu' \
+    --output_file=/nngp/uncertainty_fig3_fashion_mnist.png
 """
+
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
