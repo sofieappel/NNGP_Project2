@@ -61,8 +61,9 @@ Run these commands:
 
 git clone https://github.com/sofieappel/nngp_project2.git
 cd nngp_project2
+mkdir -p output
 docker build -t nngp-project .
-docker run nngp-project
+docker run -v "$(pwd)/output":/nngp/output nngp-project
 
 ```
 
