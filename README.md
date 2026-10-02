@@ -2,15 +2,16 @@
 
 Link to [github repo](https://github.com/sofieappel/NNGP_Project2).
 
-## Reproducing Figure 3
+## Reproducing Figure 3 from Lee et al.
 
 This project aims to reproduce the uncertainty results of the paper, "Deep Neural Networks as Gaussian Processes," as well as 
 extend the results to an additional data set. 
 
 The paper argues that an infinitely wide neural network becomes a Gaussian Process (GP) which provides that all predictions come with uncertainty estimates. 
-Figure 3 of the paper shows the high correlation of uncertainty with prediction error with training sets of size 50k for MNIST and 45k for CIFAR-10. 
+Figure 3 from Lee et al. shows the high correlation of uncertainty with prediction error with training sets of size 50k for MNIST and 45k for CIFAR-10. 
 To keep computational costs low, Figure 3 was reproduced using a training set of size 1k. All other parameters were set to a depth of 3, weight variance of 2, and bias variance of 0.2. 
 Both tanh and ReLU nonlinearities were applied like in the original paper. 
+For each bin, the mean squared prediction error is plotted against the mean predicted variance. The correlation coefficient is calculated across the 100 binned points.
 
 <p align="center"><img src="img/oringinal_uncertainty.png" alt="Original Uncertainty" width="70%"/></p>
 
@@ -27,7 +28,7 @@ The correlation coefficients slightly differ from the paper, but still show evid
 
 ## Extending Results to Additional Dataset
 
-Figure 3 of Lee et al. shows that the NNGP's predicted variance is strongly correlated with its actual error, but only for MNIST and CIFAR-10. To test whether this relationship is specific to those datasets, the experiment was repeated on the Fashion-MNIST dataset. This dataset matches MNIST in size, resolution (28x28 grayscale), and number of classes (10), so it runs through the same kernel code, preprocessing, and hyperparameters with only the data changed. It is also harder to classify, since several clothing classes look alike, which gives the uncertainty-error relationship a tougher test. 
+Figure 3 of Lee et al. shows that the NNGP's predicted variance is strongly correlated with its actual error, but only for MNIST and CIFAR-10. To test whether this relationship is specific to those datasets, the experiment was repeated on the Fashion-MNIST dataset. This dataset matches MNIST in size, resolution (28x28 grayscale), and number of classes (10), so it runs through the same kernel code, preprocessing, and hyperparameters with only the data changed. Fashion-MNIST is generally considered a more challenging classification benchmark than MNIST, in part because several clothing categories have visually similar features. With these considerations, Fashion-MNIST provides a dataset that is structurally similar to MNIST but contains more ambiguous classes.
 
 All three datasets use the settings from the paper's Figure 3 caption: depth 3, weight variance 2.0, bias variance 0.2, with tanh and ReLU nonlinearities. Each model is trained on 1,000 examples and evaluated on 10,000 test points, which are sorted by predicted variance and averaged in bins of 100, giving 100 plotted points per series. Each result comes from a single run. 
 
@@ -46,7 +47,7 @@ All three datasets use the settings from the paper's Figure 3 caption: depth 3, 
 | Fashion-MNIST | 0.8733 | 0.8481 |
 | CIFAR-10| 0.8703 | 0.7734 |
 
-Fashion-MNIST keeps a strong positive correlation (0.87 for tanh, 0.85 for ReLU). This is lower than MNIST (about 0.98) and comparable to CIFAR-10 (0.87 for tanh, 0.77 for ReLU). MNIST is clearly highest, while Fashion-MNIST and CIFAR-10 are indistinguishable under tanh and Fashion-MNIST higher under ReLU. Therefore, a strict ranking between the two datasets cannot be claimed. These results do support that the relationship is not specific to MNIST and CIFAR-10, and that is weakens on the harder tasks.
+Fashion-MNIST keeps a strong positive correlation (0.87 for tanh, 0.85 for ReLU). This is lower than MNIST (about 0.98) and comparable to CIFAR-10 (0.87 for tanh, 0.77 for ReLU). MNIST is clearly highest, while Fashion-MNIST and CIFAR-10 are indistinguishable under tanh and Fashion-MNIST higher under ReLU. Therefore, a strict ranking between the two datasets cannot be claimed. These results support that the relationship is not specific to MNIST and CIFAR-10, although the strength of the relationship appears to weaken on the more difficult datasets.
 
 
 ## Limitations
