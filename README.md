@@ -2,12 +2,12 @@
 
 Link to [github repo](https://github.com/sofieappel/NNGP_Project2).
 
-## Reproducing Uncertainty Plots
+## Reproducing Figure 3
 
 This project aims to reproduce the uncertainty results of the paper, "Deep Neural Networks as Gaussian Processes," as well as 
 extend the results to an additional data set. 
 
-The paper argues that an infinitely wide neural network becomes a Gaussian Process (GP) which means all predictions come with uncertainty estimates. 
+The paper argues that an infinitely wide neural network becomes a Gaussian Process (GP) which provides that all predictions come with uncertainty estimates. 
 Figure 3 of the paper shows the high correlation of uncertainty with prediction error with training sets of size 50k for MNIST and 45k for CIFAR-10. 
 To keep computational costs low, Figure 3 was reproduced using a training set of size 1k. All other parameters were set to a depth of 3, weight variance of 2, and bias variance of 0.2. 
 Both tanh and ReLU nonlinearities were applied like in the original paper. 
@@ -23,12 +23,13 @@ Both tanh and ReLU nonlinearities were applied like in the original paper.
 
 <p align="center"><i>Figure 2: Reproduced results using training set N = 1000.</i></p>
 
-The correlation coefficients slightly differ from the paper, but still show evidence of a strong, positive relationship.
+The correlation coefficients slightly differ from the paper, but still show evidence of a strong, positive relationship between uncertainty estimates and prediction error.
 
 ## Extending Results to Additional Dataset
 
-The original paper uses the MNIST and CIFAR-10 image datasets. This extension uses the Fashion-MNIST dataset, a dataset that contains the same number of images and same resolution, 28x28 pixels, as MNIST but the images are of clothing rather than handwritten numbers. Both datasets are in grayscale. This addition to the results of 
-the original paper can help test the effectiveness of the model on a similar yet somewhat more complex dataset. 
+Figure 3 of Lee et al. shows that the NNGP's predicted variance is strongly correlated with its actual error, but only for MNIST and CIFAR-10. To test whether this relationship is specific to those datasets, the experiment was repeated on the Fashion-MNIST dataset. This dataset matches MNIST in size, resolution (28x28 grayscale), and number of classes (10), so it runs through the same kernel code, preprocessing, and hyperparameters with only the data changed. It is also harder to classify, since several clothing classes look alike, which gives the uncertainty-error relationship a tougher test. 
+
+All three datasets use the settings from the paper's Figure 3 caption: depth 3, weight variance 2.0, bias variance 0.2, with tanh and ReLU nonlinearities. Each model is trained on 1,000 examples and evaluated on 10,000 test points, which are sorted by predicted variance and averaged in bins of 100, giving 100 plotted points per series. Each result comes from a single run. 
 
 <p float="left">
        <img src="img/uncertainty_fashion_mnist_bin100.png" alt="FMNIST Uncertainty" width="30%"/>
@@ -36,10 +37,8 @@ the original paper can help test the effectiveness of the model on a similar yet
        <img src="img/uncertainty_cifar_bin100.png" alt="CIFAR Uncertainty" width="30%"/>
 </p>
 
-<p align="center"><i>Figure 3: Fashion-MNIST, MNIST, CIFAR-10 at N=1000.</i></p>
-
-The MNIST dataset produces the best correlation between uncertainty and prediction error, Fashion-MNIST is second best, and CIFAR-10 has the worst. This is to be expected because 
-CIFAR-10 has much more variation within each class and the objects are not centered in the images like they are in the MNIST datasets.
+<p align="center"><i>Figure 3: Predicted variance vs. MSE for Fashion-MNIST, MNIST, CIFAR-10 at N=1000.</i></p>
+  
 
 | Dataset | Correlation (nonlinearity = tanh) |Correlation (nonlinearity = relu) |
 | ------- | ----- | ------ |
@@ -47,11 +46,12 @@ CIFAR-10 has much more variation within each class and the objects are not cente
 | Fashion-MNIST | 0.8733 | 0.8481 |
 | CIFAR-10| 0.8703 | 0.7734 |
 
+Fashion-MNIST keeps a strong positive correlation (0.87 for tanh, 0.85 for ReLU). This is lower than MNIST (about 0.98) and comparable to CIFAR-10 (0.87 for tanh, 0.77 for ReLU). MNIST is clearly highest, while Fashion-MNIST and CIFAR-10 are indistinguishable under tanh and Fashion-MNIST higher under ReLU. Therefore, a strict ranking between the two datasets cannot be claimed. These results do support that the relationship is not specific to MNIST and CIFAR-10, and that is weakens on the harder tasks.
+
+
 ## Limitations
 
-Results use 1,000 training points, far fewer than the paper's 50k/45k, so absolute values are not comparable to the original.
-Each plotted series has only 10 binned points and results come from a single seed, so small differences between datasets may not be meaningful. Hyperparameters were fixed to the paper's Figure 3 settings and not tuned per dataset. CIFAR-10 uses a slightly different preprocessing pipeline from MNIST and Fashion-MNIST. Fashion-MNIST is close to MNIST in size and format, so agreement is modest evidence that the trend generalizes.
-
+To decrease time and computational costs, these results used 1,000 training points versus the paper's 50,000 and 45,000. Additionally, the Fashion-MNIST dataset is close to MNIST in format, so similar results give modest evidence that the trend generalizes. The results are also from a single run, with the same hyperparameters as the paper rather than tuned per dataset.
 
 ## Reproduce the Result
 
@@ -67,65 +67,11 @@ docker run -v "$(pwd)/output":/nngp/output nngp-project
 
 ```
 
+The original paper's Github can be found [here](https://github.com/brain-research/nngp).
 
-# NNGP: Deep Neural Network Kernel for Gaussian Process
+## References
 
-TensorFlow open source implementation of
+Lee, J., Bahri, Y., Novak, R., Schoenholz, S. S., Pennington, J., & Sohl-Dickstein, J. (2018). Deep neural networks as Gaussian processes. *International Conference on Learning Representations*. https://openreview.net/forum?id=B1EA-M-0Z
 
-[**Deep Neural Networks as Gaussian Processes**](https://arxiv.org/abs/1711.00165)
+Xiao, H., Rasul, K., Vollgraf, R. (2017). Fashion-MNIST: a Novel Image Dataset for Benchmarking Machine Learning Algorithms. *arXiv*. https://arxiv.org/abs/1708.07747
 
-
-by Jaehoon Lee*, Yasaman Bahri*, Roman Novak, Sam Schoenholz, Jeffrey Pennington,
-Jascha Sohl-dickstein
-
-Presented at the International Conference on Learning Representation(ICLR) 2018.
-
-## UPDATE (September 2020):
-See also [Neural Tangents: Fast and Easy Infinite Neural Networks in Python](https://arxiv.org/abs/1912.02803) (ICLR 2020)
-available at [github.com/google/neural-tangents](https://github.com/google/neural-tangents) for 
-more up-to-date progress on computing NNGP as well as NT kernels supporting wide variety of architectural components.
-
-
-## Overview
-A deep neural network with i.i.d. priors over its parameters is equivalent to a 
-Gaussian process in the limit of infinite network width. The Neural Network
-Gaussian Process (NNGP) is fully described by a covariance kernel determined by 
-corresponding architecture.
-
-This code constructs covariance kernel for the Gaussian process that is equivalent to
-infinitely wide, fully connected, deep neural networks. 
-
-## Usage
-
-To use the code, run `run_experiments.py`,
-which uses NNGP kernel to make full Bayesian prediction on the MNIST dataset.
-
-
-```python
-python run_experiments.py \
-       --num_train=100 \
-       --num_eval=10000 \
-       --hparams='nonlinearity=relu,depth=100,weight_var=1.79,bias_var=0.83' \
-```
-
-## Contact
-***Code author:*** Jaehoon Lee, Yasaman Bahri, Roman Novak
-
-***Pull requests and issues:*** @jaehlee
-
-## Citation
-If you use this code, please cite our paper:
-```
-  @article{
-    lee2018deep,
-    title={Deep Neural Networks as Gaussian Processes},
-    author={Jaehoon Lee, Yasaman Bahri, Roman Novak, Sam Schoenholz, Jeffrey Pennington, Jascha Sohl-dickstein},
-    journal={International Conference on Learning Representations},
-    year={2018},
-    url={https://openreview.net/forum?id=B1EA-M-0Z},
-  }
-```
-
-## Note
-
-This is not an official Google product.
